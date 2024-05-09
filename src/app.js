@@ -1,26 +1,27 @@
+import util from './lib/util'
+
 /**
  * Initialize
  */
 function init() {
-  const view = document.getElementsByClassName('view')
   const anchors = document.getElementsByTagName('a')
 
   /**
-   * Get dummy post
+   * Set fake loading
    */
-  getPosts('posts.json')
+  setTimeout(() => {
+    getContent('api/content.json')
+  }, 500)
   
   /**
    * Execute only when all the content is loaded
    */
   setTimeout(() => {
-    clickable(anchors, (e) => {
+    util.clickable(anchors, (e) => {
       e.preventDefault()
       console.log(e.target)
     })
   }, 1000)
-
-  clickable(view, (e) => preview(e.target))
 }
 
 
@@ -29,17 +30,17 @@ function init() {
  * 
  * @param {string} url | Dummy API endpoint
  */
-async function getPosts(url) {
-  const post = getTemplate('post')
+function getPosts(url) {
+  const post = util.getTemplate('post')
   const grid = document.getElementById('grid')
 
-  fetch(url)
+  fetch(url, {})
   .then(async (res) => {
     var json = await res.json()
 
     for(var item of json) {
-      const node = parse(
-        replace(post, {
+      const node = util.parse(
+        util.replace(post, {
           TITLE: item.title,
           CONTENT: item.content,
           IMAGE_URL: item.image,
@@ -49,62 +50,113 @@ async function getPosts(url) {
     }
   })
   .finally(() => {
+    document.getElementById('posts').style.display = 'block'
     document.getElementById('spinner').remove()
   })
   .catch(console.log)
 }
 
 
-
 /**
- * Parse the html string back to node object
- * 
- * @param {string} html 
- * @returns {object}
+ * Set note
+ * @param {object} data | Note object
+ * @returns {function}
  */
-function parse(html) {
-  const parser = new DOMParser()
-  return parser.parseFromString(html, 'text/html')
+function setNote(data) {
+  return function(node) {
+    node.id = 'note'
+
+    const [h4, paragraph] = util.createElements(['h4','p'], function([h4, p]) {
+      p.textContent = data.text
+      h4.textContent = data.heading
+    })
+    node.appendChild(h4)
+    node.appendChild(paragraph)
+  }
 }
 
 
 /**
- * Replace variable name in a string with a value
- * 
- * @param {string} string The string to replace
- * @param {object} data | The value of variable
- * @returns {string}
+ * Set title and description
+ * @param {object} data | JSON data fetched from API
+ * @returns {function}
  */
-function replace(string, data = {}) {
-  function repl(v) {
-    var value = data[v.match(/([a-zA-Z_]+)/g)]
-    if(value) {
-      return value
-    }
-    return ''
-  }
+function setContent(data) {
+  return function([title, description]) {
+    /**
+     * Title
+     */
+    title.id = 'title'
+    title.textContent = data.title
 
-  if(string) {
-    var patt = string.match(/(\{[a-zA-Z_]+\})/g)
-    if(patt) {
-      return string.replace(new RegExp(patt.join('|'), 'g'), repl)
-    }
+    /**
+     * Description
+     */
+    description.id = 'description'
+    description.textContent = data.description
   }
-  return string
 }
 
 
 /**
- * Get the html template using AJAX
- * @param {string} name | The name of the template
- * @returns {string}
+ * Make the photo clickable and display to modal
+ * @param {object} photo 
+ * @returns {function}
  */
-function getTemplate(name) {
-  const ajax = new XMLHttpRequest()
+function setPhotos(photo) {
+  return function(node) {
+    node.src = photo.url
+    node.className = photo.class
 
-  ajax.open('GET', `template/${name}.html`, false)
-  ajax.send()
-  return ajax.responseText
+    node.onclick = function(e) {
+      preview(e.target)
+    }
+    node.setAttribute('alt', photo.name)
+  }
+}
+
+
+/**
+ * A dummy API fetch to load posts
+ * 
+ * @param {string} url | Dummy API endpoint
+ */
+async function getContent(url) {
+  const photos = document.getElementById('photos')
+  const excerpt = document.getElementById('excerpt')
+
+  fetch(url)
+  .then(async function(res) {
+    const data  = await res.json()
+
+    /**
+     * Photos
+     */
+    for(var photo of data.gallery) {
+      photos.appendChild(
+        util.createElements(['img'], setPhotos(photo))
+      )
+    }
+
+    /**
+     * Text content
+     */
+    const [title, description] = util.createElements(['h1','p'], setContent(data))
+    excerpt.appendChild(title)
+    excerpt.appendChild(description)
+
+    /**
+     * Note
+     */
+    const note = util.createElements(['div'], setNote(data.note))
+    excerpt.appendChild(note)
+  })
+
+  .finally(() => {
+    getPosts('api/posts.json')
+  })
+
+  .catch(console.log)
 }
 
 
@@ -115,9 +167,9 @@ function getTemplate(name) {
 function preview(node) {
   const name = node.getAttribute('alt')
 
-  const template = parse(
-    replace(
-      getTemplate('preview'), {IMAGE_NAME: name}
+  const template = util.parse(
+    util.replace(
+      util.getTemplate('preview'), {IMAGE_NAME: name}
     )
   )
   const preview = template.body.firstChild
@@ -140,20 +192,6 @@ function preview(node) {
   
   document.body.appendChild(preview)
   console.log(node)
-}
-
-
-
-/**
- * Clickable elements
- * 
- * @param {object} nodes | All nodes found in the DOM
- * @param {functin} cb | The callback of the element being clicked
- */
-function clickable(nodes, cb) {
-  for(var node of nodes) {
-    node.onclick = (e) => cb(e)
-  }
 }
 
 
