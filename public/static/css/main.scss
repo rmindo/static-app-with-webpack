@@ -78,7 +78,7 @@ main {
       justify-content: space-between;
 
       .post {
-        width: 384px;
+        width: calc(100%/3 - 20px);
 
         p {
           font-size: 16px;
@@ -105,5 +105,9 @@ main {
         }
       }
     }
+  }
+
+  #spinner {
+    margin: 100px 0;
   }
 }

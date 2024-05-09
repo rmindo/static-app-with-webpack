@@ -16,3 +16,9 @@ p {
 figure {
   margin: 0;
 }
+
+.clear::after {
+  content: "";
+  clear: both;
+  display: table;
+}
