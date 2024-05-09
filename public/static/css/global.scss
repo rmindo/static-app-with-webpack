@@ -1,0 +1,18 @@
+@import 'colors.scss';
+
+body {
+  margin: 0;
+  font-size: 18px;
+  color: $body-color;
+  font-family: 'OpenSans-Light';
+  background-color: $bacground-color;
+}
+
+p {
+  color: #c4c3c3;
+  line-height: 32px;
+}
+
+figure {
+  margin: 0;
+}
