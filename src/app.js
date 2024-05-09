@@ -179,6 +179,7 @@ function preview(node) {
    * Create a close button
    */
   const close = document.createElement('div')
+  close.className = 'close'
   close.textContent = 'Close'
 
   /**
