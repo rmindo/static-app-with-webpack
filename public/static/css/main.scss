@@ -3,7 +3,7 @@
 
 main {
   padding: 80px 0;
-  
+
   /**
   * Gallery styles
   */
@@ -65,7 +65,7 @@ main {
       text-align: center;
       margin-bottom: 60px;
     }
-    .grid {
+    #grid { 
       display: flex;
       justify-content: space-between;
 
