@@ -2,7 +2,7 @@
 
 
 section {
-  padding: 80px 0;
+  padding: 90px 0;
 }
 
 .inner {
@@ -17,6 +17,7 @@ section {
   bottom: 0;
   padding: 20px;
   position: fixed;
+  animation: fadeIn 1s;
   overflow-y: scroll;
   text-align: center;
   align-content: center;

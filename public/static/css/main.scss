@@ -2,20 +2,16 @@
 
 
 main {
-  padding: 80px 0;
+  padding: 95px 0;
+  text-align: center;
 
   /**
   * Gallery styles
   */
   #gallery {
+    animation: fadeIn 5s;
+    
 
-    h1 {
-      font-size: 26px;
-      margin: 0 0 30px;
-      padding-bottom: 15px;
-      font-weight: lighter;
-      border-bottom: 1px solid #cacaca;
-    }
     .inner {
       display: flex;
       justify-content: space-between;
@@ -23,34 +19,42 @@ main {
     
 
     #photos {
-      display: flex;
+      width: 792px;
       
-      .col-1 {
-        margin-right: 20px;
+      img {
+        float: left;
+        margin-bottom: 24px;
       }
-      .col-2 {
-        display: grid;
-
-        :first-child {
-          margin-bottom: 20px;
-        }
+      img:first-child {
+        margin-right: 24px;
       }
     }
 
 
     #excerpt {
-      width: 390px;
+      width: 385px;
+      text-align: left;
 
-      .paragraph {
-        margin-bottom: 40px;
+      h1 {
+        font-size: 26px;
+        margin: 0 0 30px;
+        padding-bottom: 15px;
+        font-weight: lighter;
+        border-bottom: 1px solid #cacaca;
       }
-
-      .highlighted {
+      #note {
         h4 {
           color: $red;
         }
+        p {
+          font-weight: bold;
+        }
         font-size: 16px;
         font-family: 'OpenSans-Bold';
+      }
+
+      #description {
+        margin-bottom: 40px;
       }
     }
   }
@@ -60,6 +64,10 @@ main {
   * Posts styles
   */
   #posts {
+    display: none;
+    animation: fadeIn 5s;
+    text-align: left;
+    
     h2 {
       font-size: 42px;
       text-align: center;
