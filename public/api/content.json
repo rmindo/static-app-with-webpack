@@ -1,0 +1,25 @@
+{
+  "title": "ANSWER YOUR BODY'S NEEDS",
+  "description": "The way ingredients are sourced affects the way we nourish our bodies. Author Mark Schatzer believes our body naturally develops an appetite for the foods and nutrients it needs to be healthy, but that artificial flavourings are getting in the way. This can be reversed by focusing on high-quality ingredients and being mindful as your appitite guides you to consume according to your body's needs.",
+  "note": {
+    "heading": "BE MINDFUL",
+    "text": "Sourcing local or organic food is a good way to start being more mindful about what you're cooking and eating."
+  },
+  "gallery": [
+    {
+      "class": "view",
+      "name": "Image-01",
+      "url": "static/images/gallery/Image-01.jpg"
+    },
+    {
+      "class": "view",
+      "name": "Image-02",
+      "url": "static/images/gallery/Image-02.jpg"
+    },
+    {
+      "class": "view",
+      "name": "Image-03",
+      "url": "static/images/gallery/Image-03.jpg"
+    }
+  ]
+}
