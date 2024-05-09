@@ -23,6 +23,10 @@ section {
   align-content: center;
   background-color: $overlay;
 
+
+  .close {
+    margin: 20px 0;
+  }
   .preview {
     padding: 50px;
     img {
