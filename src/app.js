@@ -5,11 +5,66 @@ function init() {
   const view = document.getElementsByClassName('view')
   const anchors = document.getElementsByTagName('a')
 
-  clickable(anchors, (e) => {
-    e.preventDefault()
-    console.log(e.target)
-  })
+  /**
+   * Get dummy post
+   */
+  getPosts('posts.json')
+  
+  /**
+   * Execute only when all the content is loaded
+   */
+  setTimeout(() => {
+    clickable(anchors, (e) => {
+      e.preventDefault()
+      console.log(e.target)
+    })
+  }, 1000)
+
   clickable(view, (e) => preview(e.target))
+}
+
+
+/**
+ * A dummy API fetch to load posts
+ * 
+ * @param {string} url | Dummy API endpoint
+ */
+async function getPosts(url) {
+  const post = getTemplate('post')
+  const grid = document.getElementById('grid')
+
+  fetch(url)
+  .then(async (res) => {
+    var json = await res.json()
+
+    for(var item of json) {
+      const node = parse(
+        replace(post, {
+          TITLE: item.title,
+          CONTENT: item.content,
+          IMAGE_URL: item.image,
+        })
+      )
+      grid.appendChild(node.body.firstChild)
+    }
+  })
+  .finally(() => {
+    document.getElementById('spinner').remove()
+  })
+  .catch(console.log)
+}
+
+
+
+/**
+ * Parse the html string back to node object
+ * 
+ * @param {string} html 
+ * @returns {object}
+ */
+function parse(html) {
+  const parser = new DOMParser()
+  return parser.parseFromString(html, 'text/html')
 }
 
 
@@ -59,28 +114,31 @@ function getTemplate(name) {
  */
 function preview(node) {
   const name = node.getAttribute('alt')
-  const parser = new DOMParser()
 
-  const template = replace(getTemplate('preview'), {
-    IMAGE_NAME: name
-  })
-  const parsed = parser.parseFromString(template, 'text/html')
-  const view = parsed.body.firstChild
+  const template = parse(
+    replace(
+      getTemplate('preview'), {IMAGE_NAME: name}
+    )
+  )
+  const preview = template.body.firstChild
   
   
+  /**
+   * Create a close button
+   */
   const close = document.createElement('div')
   close.textContent = 'Close'
 
   /**
-   * Close the modal
+   * Close the modal on click
    */
-  view.onclick = function(e) {
+  preview.onclick = function(e) {
     console.log(e.target)
     document.body.lastChild.remove()
   }
-  view.insertBefore(close, view.firstChild)
+  preview.insertBefore(close, preview.firstChild)
   
-  document.body.appendChild(view)
+  document.body.appendChild(preview)
   console.log(node)
 }
 
