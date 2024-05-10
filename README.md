@@ -1,6 +1,6 @@
 # Static App with Webpack
 
-## Run and Installation
+## Installation
 Go to the root directory of the project to install the dependencies.
 
 `
