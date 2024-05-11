@@ -52,20 +52,6 @@ function clickable(nodes, cb) {
 }
 
 
-/**
- * Get the html template using AJAX
- * @param {string} name | The name of the template
- * @returns {string}
- */
-function getTemplate(name) {
-  const ajax = new XMLHttpRequest()
-
-  ajax.open('GET', `template/${name}.html`, false)
-  ajax.send()
-  return ajax.responseText
-}
-
-
 
 /**
  * 
@@ -95,6 +81,5 @@ export default {
   parse,
   replace,
   clickable,
-  getTemplate,
   createElements,
 }
