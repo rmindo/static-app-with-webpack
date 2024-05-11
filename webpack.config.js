@@ -38,6 +38,13 @@ module.exports = {
         type: 'asset/resource'
       },
       {
+        test: /\.html$/i,
+        loader: 'html-loader',
+        options: {
+          sources: false,
+        },
+      },
+      {
         test: /\.(js|ts)$/,
         include: [
           path.resolve(maindir, 'src')
@@ -67,11 +74,7 @@ module.exports = {
         {
           from: 'public/static/images',
           to: 'static/images'
-        },
-        {
-          from: 'public/template',
-          to: 'template'
-        },
+        }
       ],
     }),
     new HtmlWebpack({
