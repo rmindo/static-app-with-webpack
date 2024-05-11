@@ -180,8 +180,8 @@ function preview(node) {
   
   
   function remove(e) {
-    console.log(e.target)
     document.body.lastChild.remove()
+    console.log(e.target)
   }
   /**
    * Create a close button
