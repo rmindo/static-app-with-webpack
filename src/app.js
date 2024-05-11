@@ -179,20 +179,22 @@ function preview(node) {
   const preview = template.body.firstChild
   
   
+  function remove(e) {
+    console.log(e.target)
+    document.body.lastChild.remove()
+  }
   /**
    * Create a close button
    */
   const close = document.createElement('div')
+  close.onclick = remove
   close.className = 'close'
   close.textContent = 'Close'
 
   /**
    * Close the modal on click
    */
-  preview.onclick = function(e) {
-    console.log(e.target)
-    document.body.lastChild.remove()
-  }
+  preview.onclick = remove
   preview.insertBefore(close, preview.firstChild)
   
   document.body.appendChild(preview)
