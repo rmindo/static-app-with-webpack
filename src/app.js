@@ -1,6 +1,13 @@
 import util from './lib/util'
 
 /**
+ * HTML template
+ */
+import post from './template/post.html'
+import modal from './template/modal.html'
+
+
+/**
  * Initialize
  */
 function init() {
@@ -31,7 +38,6 @@ function init() {
  * @param {string} url | Dummy API endpoint
  */
 function getPosts(url) {
-  const post = util.getTemplate('post')
   const grid = document.getElementById('grid')
 
   fetch(url, {})
@@ -168,9 +174,7 @@ function preview(node) {
   const name = node.getAttribute('alt')
 
   const template = util.parse(
-    util.replace(
-      util.getTemplate('preview'), {IMAGE_NAME: name}
-    )
+    util.replace(modal, {IMAGE_NAME: name})
   )
   const preview = template.body.firstChild
   
