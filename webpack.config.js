@@ -20,7 +20,7 @@ module.exports = {
     hot: true,
     port: 3000,
     compress: true,
-    host: '192.168.1.7',
+    host: 'localhost',
     historyApiFallback: true,
   },
   module: {
